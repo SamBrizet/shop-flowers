@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
     >
       <button
         type="button"
-        className={`icon-button icon-button--wishlist${isFavorite ? ' is-active' : ''}`}
+        className={`icon-button product-card__wishlist${isFavorite ? ' is-active' : ''}`}
         onClick={() => toggleWishlist(product.id)}
         aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
       >

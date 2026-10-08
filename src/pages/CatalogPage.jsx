@@ -1,6 +1,7 @@
 import { useDeferredValue, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import CatalogToolbar from '../components/CatalogToolbar.jsx'
+import CollectionProductCard from '../components/CollectionProductCard.jsx'
 import Loader from '../components/Loader.jsx'
 import ProductCard from '../components/ProductCard.jsx'
 import ProductSkeletonGrid from '../components/ProductSkeletonGrid.jsx'
@@ -12,34 +13,44 @@ import { filterProducts, sortProducts } from '../utils/catalog.js'
 export default function CatalogPage() {
   const { products, productsError, productsLoading } = useShop()
   const [searchParams, setSearchParams] = useSearchParams()
+  const selectedCategory = searchParams.get('categoria') ?? 'all'
   const maxPrice = useMemo(() => Math.max(...products.map((product) => product.precio), 150), [products])
   const [filters, setFilters] = useState({
-    category: searchParams.get('categoria') ?? 'all',
+    category: selectedCategory,
     maxPrice,
     search: searchParams.get('buscar') ?? '',
     sortBy: 'popularidad',
   })
+  const activeFilters = { ...filters, category: selectedCategory }
   const deferredSearch = useDeferredValue(filters.search)
   const normalizedMaxPrice = Math.min(filters.maxPrice, maxPrice)
 
   const categories = useMemo(() => [...new Set(products.map((product) => product.categoria))], [products])
 
-  useDocumentMeta({
-    title: 'Catalogo | Shop Flowers',
-    description: 'Explora flores, arreglos premium, filtros por categoria y favoritos persistentes.',
-  })
+  useDocumentMeta(
+    filters.category === 'all'
+      ? {
+          title: 'Catálogo | Shop Flowers',
+          description: 'Explora flores, arreglos premium, filtros por categoria y favoritos persistentes.',
+        }
+      : {
+          title: `${filters.category} | Shop Flowers`,
+          description: `Explora nuestra colección de ${filters.category.toLowerCase()}, preparada a mano en Shop Flowers.`,
+        },
+  )
 
   const visibleProducts = useMemo(() => {
     const filtered = filterProducts(products, {
       ...filters,
+      category: selectedCategory,
       maxPrice: normalizedMaxPrice,
       search: deferredSearch,
     })
     return sortProducts(filtered, filters.sortBy)
-  }, [deferredSearch, filters, normalizedMaxPrice, products])
+  }, [deferredSearch, filters, normalizedMaxPrice, products, selectedCategory])
 
   const handleFilterChange = (key, value) => {
-    const nextFilters = { ...filters, [key]: value }
+    const nextFilters = { ...activeFilters, [key]: value }
     setFilters(nextFilters)
 
     const nextParams = new URLSearchParams()
@@ -53,6 +64,37 @@ export default function CatalogPage() {
     setSearchParams({}, { replace: true })
   }
 
+  if (selectedCategory !== 'all') {
+    return (
+      <div className="page-stack page-stack--collection">
+        <section className="content-section collection-view">
+          <div className="collection-heading">
+            <Link className="collection-back" to="/">← Todas las flores</Link>
+            <SectionIntro eyebrow="Nuestra selección" title={selectedCategory} />
+          </div>
+
+            {productsLoading ? <Loader label={`Cargando ${selectedCategory.toLowerCase()}`} /> : null}
+          {productsError ? <p className="status-card status-card--error">{productsError}</p> : null}
+
+          {!productsLoading && !productsError ? (
+            visibleProducts.length > 0 ? (
+              <div className="product-grid product-grid--collection">
+                {visibleProducts.map((product) => (
+                  <CollectionProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <article className="empty-state">
+                <h3>Pronto habrá nuevos arreglos de {selectedCategory.toLowerCase()}.</h3>
+                <Link className="btn btn--primary" to="/">Ver otras flores</Link>
+              </article>
+            )
+          ) : null}
+        </section>
+      </div>
+    )
+  }
+
   return (
     <div className="page-stack page-stack--tight">
       <section className="catalog-hero">
@@ -63,7 +105,7 @@ export default function CatalogPage() {
         />
         <CatalogToolbar
           categories={categories}
-          filters={{ ...filters, maxPrice: normalizedMaxPrice }}
+          filters={{ ...activeFilters, maxPrice: normalizedMaxPrice }}
           maxLimit={maxPrice}
           onChange={handleFilterChange}
           onReset={resetFilters}

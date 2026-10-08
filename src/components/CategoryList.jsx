@@ -14,14 +14,12 @@ export default function CategoryList() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.45, delay: index * 0.06 }}
         >
-          <img src={category.image} alt={category.name} loading="lazy" />
-          <div>
-            <h3>{category.name}</h3>
-            <p>{category.description}</p>
-            <Link className="text-link" to={`/catalogo?categoria=${encodeURIComponent(category.name)}`}>
-              Explorar categoria
-            </Link>
-          </div>
+          <Link className="category-card__link" to={`/catalogo?categoria=${encodeURIComponent(category.category)}`}>
+            <img src={category.image} alt={category.name} loading="lazy" />
+            <div>
+              <h3>{category.name}</h3>
+            </div>
+          </Link>
         </motion.article>
       ))}
     </div>

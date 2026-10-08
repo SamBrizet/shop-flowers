@@ -7,14 +7,15 @@ export function filterProducts(products, filters) {
   const normalizedSearch = normalize(search.trim())
 
   return products.filter((product) => {
-    const matchesCategory = category === 'all' || product.categoria === category
+    const haystack = normalize(`${product.nombre} ${product.categoria} ${product.descripcion}`)
+    const matchesCategory =
+      category === 'all' || product.categoria === category
     const matchesPrice = product.precio <= maxPrice
 
     if (!normalizedSearch) {
       return matchesCategory && matchesPrice
     }
 
-    const haystack = normalize(`${product.nombre} ${product.categoria} ${product.descripcion}`)
     return matchesCategory && matchesPrice && haystack.includes(normalizedSearch)
   })
 }

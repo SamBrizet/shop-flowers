@@ -1,46 +1,71 @@
+const pexels = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=800`
+
 export const categoryCards = [
-  {
-    name: 'Ramos',
-    description: 'Composiciones editoriales con flores de temporada y follaje ligero.',
-    image:
-      'https://images.unsplash.com/photo-1526397751294-331021109fbd?auto=format&fit=crop&w=900&q=80',
-  },
+  { name: 'Flores amarillas', category: 'Flores amarillas', image: pexels(33784343) },
   {
     name: 'Rosas',
-    description: 'Arreglos de rosas premium para aniversarios, celebraciones y detalles memorables.',
+    category: 'Rosas',
     image:
       'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80',
   },
+  { name: 'Lirios', category: 'Lirios', image: pexels(35316473) },
+  { name: 'Tulipanes', category: 'Tulipanes', image: pexels(31922991) },
+  { name: 'Gerberas', category: 'Gerberas', image: pexels(30250345) },
+  { name: 'Peonías', category: 'Peonías', image: pexels(17275117) },
+  { name: 'Orquídeas', category: 'Orquídeas', image: pexels(34092563) },
+  { name: 'Hortensias', category: 'Hortensias', image: pexels(18703646) },
+]
+
+export const faqs = [
   {
-    name: 'Tulipanes',
-    description: 'Paletas limpias y siluetas elegantes con un acabado boutique.',
-    image:
-      'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=900&q=80',
+    question: '¿Hacen entregas el mismo día?',
+    answer:
+      'Sí. Si confirmas tu pedido por la mañana, coordinamos la entrega el mismo día en Lima Metropolitana. Te avisamos por WhatsApp apenas sale tu ramo.',
   },
   {
-    name: 'Girasoles',
-    description: 'Disenos radiantes para regalos de cumpleanos y espacios calidos.',
-    image:
-      'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80',
+    question: '¿Puedo elegir la fecha y la hora de entrega?',
+    answer:
+      'Claro. Al finalizar tu compra nos indicas el día y el rango de horario que prefieres, y lo programamos para que llegue en el momento justo.',
+  },
+  {
+    question: '¿Cómo puedo pagar?',
+    answer:
+      'Aceptamos tarjeta, transferencia bancaria y pago contra entrega. Eliges el método en el checkout.',
+  },
+  {
+    question: '¿Puedo incluir una dedicatoria?',
+    answer:
+      'Sí, cada pedido incluye una tarjeta sin costo. Escribe tu mensaje al finalizar la compra y lo agregamos a mano.',
+  },
+  {
+    question: '¿Qué pasa si no hay nadie para recibir las flores?',
+    answer:
+      'Intentamos contactar a quien recibe y a ti. Si no es posible entregar, reprogramamos con otro horario o dejamos el pedido con portería o un familiar.',
+  },
+  {
+    question: '¿Cuánto duran las flores y cómo las cuido?',
+    answer:
+      'Con buenos cuidados duran entre 5 y 10 días. Cambia el agua cada dos días, corta un poco los tallos y mantén el ramo lejos del sol directo.',
+  },
+  {
+    question: '¿Hacen arreglos personalizados?',
+    answer:
+      'Sí. Cuéntanos la ocasión, los colores y tu presupuesto por WhatsApp y diseñamos un arreglo único para ti.',
   },
 ]
 
 export const benefits = [
   {
-    title: 'Entrega el mismo dia',
-    copy: 'Coordinamos ventanas de entrega en Lima Metropolitana con seguimiento simple.',
+    title: 'Entrega en Lima',
+    copy: 'Coordinamos el momento perfecto para recibir tus flores.',
   },
   {
-    title: 'Diseno floral premium',
-    copy: 'Cada arreglo se arma con una paleta curada y acabados de boutique contemporanea.',
+    title: 'Diseño de temporada',
+    copy: 'Ramos hechos a mano con flores frescas y seleccionadas.',
   },
   {
-    title: 'Notas personalizadas',
-    copy: 'Incluye mensaje, empaque de regalo y tarjeta sin costo adicional.',
-  },
-  {
-    title: 'Compra segura',
-    copy: 'Checkout frontend con resumen claro, control de cantidades y persistencia local.',
+    title: 'Un mensaje tuyo',
+    copy: 'Incluye una tarjeta personal y empaque de regalo.',
   },
 ]
 
